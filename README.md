@@ -6,13 +6,15 @@ The game is deterministic. There is no player choice, so I wanted to find the li
 The rules of the solitaire game:
 1. Shuffle a deck.
 2. Draw until you have 4 cards.
-3. The 1st and 4th cards in your hand will be compared. If they are both the same suit, remove the two cards between them. If they are both the same number, remove all four of the most recent cards in your hand.
-4. This process is repeated until you run out of cards to draw, always making sure you have 4 cards in your hand.
+3. The 1st and 4th cards in your hand will be compared. If they are both the same suit, remove the two cards between them. If they are both the same number, remove both the cards, and the two cards between them.
+4. This process is repeated until you run out of cards to draw, always making sure you have at least 4 cards in your hand.
 5. When you run out of cards in the deck, start cycling the back card of your hand to the front, and repeating step 3.
 6. When you can no longer remove any cards, or you have removed every card from your hand, the game is over. The goal of the game is to run out of cards in your hand.
 
 ![](graph.png)
 
 The common stats I found were:
+
 Win Percentage: 1.45%
+
 Avg. Remaining Cards: 10.53
