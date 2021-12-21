@@ -10,3 +10,9 @@ The rules of the solitaire game:
 4. This process is repeated until you run out of cards to draw, always making sure you have 4 cards in your hand.
 5. When you run out of cards in the deck, start cycling the back card of your hand to the front, and repeating step 3.
 6. When you can no longer remove any cards, or you have removed every card from your hand, the game is over. The goal of the game is to run out of cards in your hand.
+
+![](graph.png)
+
+The common stats I found were:
+Win Percentage: 1.45%
+Avg. Remaining Cards: 10.53
