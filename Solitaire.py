@@ -26,10 +26,15 @@ class Deck:
 		random.shuffle(self.cards)
 
 # Simulation Variables
-sim_runs = 10000
+sim_runs = 1000000
 num_won = 0
 total_rem = 0
 largest_rem = 0
+histogram_rem = {}
+
+# Create dictionary file with num remaining to be represented in histogram 
+for x in range(27):
+	histogram_rem[x*2] = 0
 
 file = open("output.csv", "w")
 
@@ -104,15 +109,19 @@ for x in range(sim_runs):
 			if(y == len(hand) - 1):
 				phase_two_finished = True
 
-	file.write(str(len(hand)))
-	file.write("\n")
-
 	# Running post-simulation statistics
 	if(len(hand) > largest_rem):
 		largest_rem = len(hand)
 	total_rem = total_rem + len(hand)
 	if(len(hand) == 0): 
 		num_won = num_won + 1
+	histogram_rem[len(hand)] += 1
+
+for x in range(27):
+	file.write(str(x*2))
+	file.write(",")
+	file.write(str(histogram_rem[x*2]))
+	file.write("\n")
 
 print("Games Run:", sim_runs)
 print("Games Won:", num_won)
