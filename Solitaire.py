@@ -1,10 +1,20 @@
 import random
+import copy
+import time
 
 # Creates a card w/ suit and number, described in Deck class
 class Card:
 	def __init__(self, suit, number):
 		self.suit = suit
 		self.number = number
+
+	def get_suit(self):
+		suits = ("Clubs","Diamonds","Hearts","Spades")
+		return suits[self.suit]
+
+	def get_number(self):
+		numbers = ("Ace","2","3","4","5","6","7","8","9","10","Jack","Queen","King")
+		return numbers[self.number]
 
 	def print_card(self):
 		suits = ("Clubs","Diamonds","Hearts","Spades")
@@ -25,22 +35,7 @@ class Deck:
 	def randomize(self):
 		random.shuffle(self.cards)
 
-# Simulation Variables
-sim_runs = 1000000
-num_won = 0
-total_rem = 0
-largest_rem = 0
-histogram_rem = {}
-
-# Create dictionary file with num remaining to be represented in histogram 
-for x in range(27):
-	histogram_rem[x*2] = 0
-
-file = open("output.csv", "w")
-
-# Solitaire runs here
-for x in range(sim_runs):
-	deck = Deck()
+def run_sim(deck):
 	hand = []
 	phase_one_finished = False
 	phase_two_finished = False
@@ -108,21 +103,67 @@ for x in range(sim_runs):
 
 			if(y == len(hand) - 1):
 				phase_two_finished = True
+	return len(hand)
 
-	# Running post-simulation statistics
-	if(len(hand) > largest_rem):
-		largest_rem = len(hand)
-	total_rem = total_rem + len(hand)
-	if(len(hand) == 0): 
+# Simulation Variables
+sim_runs = 1000
+num_won = 0
+total_rem = 0
+largest_rem = 0
+histogram_rem = {}
+max_deck = Deck()
+count = 0
+time_start = time.process_time_ns()
+
+# Variables for printing time elapsed
+
+# Create dictionary with num remaining as key val to be represented in histogram 
+for x in range(27):
+	histogram_rem[x*2] = 0
+
+file = open("output3.csv", "w")
+
+# Solitaire runs here
+#for x in range(sim_runs):
+while(largest_rem < 52):
+	deck = Deck()
+	temp_deck = copy.deepcopy(deck)
+
+	#if(((x+1)%(sim_runs/100)) == 0):
+	#	print("% Progress:",(x/sim_runs)*100)
+	#	print("Time Elapsed:",(time.process_time_ns()-time_start)/1000000000)
+	#	print()
+
+	if(count%100000 == 0):
+		print("Trials Ran:",count)
+		print("Largest rem:",largest_rem)
+	count += 1
+
+	num_rem = run_sim(deck)
+
+	# Running post-simulation information
+	if(num_rem > largest_rem):
+		largest_rem = num_rem
+		max_deck = copy.deepcopy(temp_deck)
+	total_rem = total_rem + num_rem
+	if(num_rem == 0): 
 		num_won = num_won + 1
-	histogram_rem[len(hand)] += 1
+	histogram_rem[num_rem] += 1
 
+# Writing data to csv file in form rem,freq
 for x in range(27):
 	file.write(str(x*2))
 	file.write(",")
 	file.write(str(histogram_rem[x*2]))
 	file.write("\n")
 
+for x in max_deck.cards:
+	file.write(str(x.get_number()))
+	file.write(",")
+	file.write(str(x.get_suit()))
+	file.write("\n")
+
+# Printing sim statistics
 print("Games Run:", sim_runs)
 print("Games Won:", num_won)
 print("Win %:", num_won/sim_runs)
