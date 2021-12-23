@@ -3,6 +3,8 @@ Making a program to test the likely-hood of a winning solitaire deck in a certai
 
 The game is deterministic. There is no player choice, so I wanted to find the likelihood of winning in the long term. This was a bit of a rough implementation of the games algorithm (I relied way too much on breaks and continues) but it's working. More than anything though, I wanted to do this to practice using python because all of my recent projects have been built in C++
 
+The current program runs the simulation a number of times specified by the variable sim_runs. In order to keep track of output, I made a progress counter that outputs a message every 100th of the full simulation loop. This was because I ran the program for hours on end to run 17.5M trials, so I wanted something to make sure the test was stil running. The program also saves the configuration of the deck for the most remaining at a time. I did this to find possible configurations where you can have a perfect loss, where you can't get rid of a single card.
+
 The rules of the solitaire game:
 1. Shuffle a deck.
 2. Draw until you have 4 cards.
@@ -17,4 +19,6 @@ The common stats I found were:
 
 Win Percentage: 1.45%
 
-Avg. Remaining Cards: 10.53
+Avg. Remaining Cards: 10.55
+
+Most Common Outcome: 6 Cards
